@@ -1,2 +1,4 @@
 /target
+/traits/target
+/derive/target
 Cargo.lock
