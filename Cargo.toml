@@ -1,0 +1,9 @@
+[package]
+name = "quick-proc"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+derive = { path = "derive" }
+traits = { path = "traits" }
