@@ -91,9 +91,9 @@ pub fn derive_ser(input: TokenStream) -> TokenStream {
                     
                     quote::quote!(
                         #name::#ident( #( #fields ),* ) => {
-                            #index.ser(buffer);
+                            QuickSer::ser(&#index, buffer);
                             #(
-                                #fields2.ser(buffer);
+                                QuickSer::ser(#fields2, buffer);
                             )*
                         }
                     )
@@ -105,7 +105,7 @@ pub fn derive_ser(input: TokenStream) -> TokenStream {
                         #name::#ident { #( #fields ),* } => {
                             #index.ser(buffer);
                             #(
-                                #fields2.ser(buffer);
+                                QuickSer::ser(#fields2, buffer);
                             )*
                         }
                     )
@@ -165,7 +165,7 @@ pub fn derive_ser(input: TokenStream) -> TokenStream {
                     quote::quote!(
                         #index => {
                             #name::#ident(#(
-                                #fields
+                                #fields,
                             )*)
                         }
                     )
@@ -196,7 +196,7 @@ pub fn derive_ser(input: TokenStream) -> TokenStream {
                 fn de_ser(progress: &mut usize, buffer: &[u8]) -> Self {
                     match QuickSer::de_ser(progress, buffer) {
                         #( #variants )*
-                        _ => panic!("invalid variant"),
+                        v => panic!("invalid variant {:?}", v),
                     }
                 }
             }

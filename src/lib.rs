@@ -1,9 +1,16 @@
 pub use traits::*;
 pub use derive::*;
 
-#[cfg(test)]
+//#[cfg(test)]
 mod tests {
     use super::*;
+
+    #[derive(Debug, QuickSer)]
+    pub enum TestEnum {
+        A(u8),
+        B(u16),
+        C(u32, u64),
+    }
 
     #[derive(PartialEq, Eq, Debug)]
     pub struct NonDefault(u8);
