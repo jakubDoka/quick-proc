@@ -1,7 +1,7 @@
 pub use traits::*;
 pub use derive::*;
 
-//#[cfg(test)]
+#[cfg(test)]
 mod tests {
     use super::*;
 
