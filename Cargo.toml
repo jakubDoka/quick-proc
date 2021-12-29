@@ -2,8 +2,10 @@
 name = "quick-proc"
 version = "0.1.0"
 edition = "2021"
-
+description = "Some simple utility derive macros with minimal dependency."
+license = "MIT"
+repository = "https://github.com/jakubDoka/quick-proc"
 
 [dependencies]
-derive = { path = "derive" }
-traits = { path = "traits" }
+derive = { path = "derive", version = "0.1.0" }
+traits = { path = "traits", version = "0.1.0" }
