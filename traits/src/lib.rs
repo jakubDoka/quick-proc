@@ -1,4 +1,4 @@
-use std::{marker::PhantomData, time::SystemTime};
+use std::{marker::PhantomData, time::SystemTime, collections::HashMap, hash::Hash};
 
 
 pub trait QuickSer where Self: Sized {
@@ -55,6 +55,27 @@ impl<T: QuickSer> QuickSer for Option<T> {
             },
             _ => panic!("invalid enum tag"),
         }
+    }
+}
+
+impl<K: QuickSer + Eq + Hash, V: QuickSer> QuickSer for HashMap<K, V> {
+    fn ser(&self, buffer: &mut Vec<u8>) {
+        self.len().ser(buffer);
+        for (k, v) in self.iter() {
+            k.ser(buffer);
+            v.ser(buffer);
+        }
+    }
+
+    fn de_ser(progress: &mut usize, buffer: &[u8]) -> Self {
+        let len = usize::de_ser(progress, buffer);
+        let mut result = HashMap::with_capacity(len);
+        for _ in 0..len {
+            let k = K::de_ser(progress, buffer);
+            let v = V::de_ser(progress, buffer);
+            result.insert(k, v);
+        }
+        result
     }
 }
 
